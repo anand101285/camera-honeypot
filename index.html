@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link href="./output.css" rel="stylesheet" />
+  </head>
+
+  <body class="">
+    <div
+      class="text-[12px] sticky top-0 flex h-2 z-10 w-full items-center p-4 text-gray-800 bg-gray-50 dark:bg-gray-800 dark:text-gray-300"
+      role="alert"
+    >
+      <svg
+        class="flex-shrink-0 inline w-4 h-4 me-3"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
+        />
+      </svg>
+      <span class="sr-only">Info</span>
+      <div>
+        <span class="font-medium">Alert!</span> Please install the required
+        plugin (make sure you have enabled nPAPI & your browser has compatible
+        version)
+        <a href="" class="text-blue-200">Install now</a>
+      </div>
+    </div>
+    <div class="bg-[#373737] flex justify-center items-center h-screen">
+      <div
+        class="flex justify-center w-full bg-[url('./assets/img/bg.png')] bg-center"
+      >
+        <div
+          class="bg-gradient-to-b from-[#fbfafb] to-[#b6b4b5] card w-[490px] h-[270px] pt-[20px] rounded-lg shadow-md"
+        >
+          <div class="card-header text-center mb-6">
+            <img src="./assets/img/loginlogo.jpg" class="w-full" />
+          </div>
+          <div class="card-body space-y-2">
+            <div class="flex flex-row justify-center space-x-1">
+              <label for="username" class="text-[12px]">Username:</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                class="border border-gray-400 max-h-[22px] max-w-[165px]"
+                required
+              />
+            </div>
+            <div class="flex flex-row justify-center space-x-1">
+              <label for="password" class="text-[12px] ml-[77px]"
+                >Password:</label
+              >
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="border border-gray-400 max-h-[22px] max-w-[165px]"
+                required
+              />
+              <div class="text-right text-[12px]">
+                <input type="checkbox" />
+                <label class="text-[12px] text-gray-600"> Plain Text</label>
+              </div>
+            </div>
+            <div class="flex flex-row justify-center space-x-1">
+              <label for="protocol" class="text-[12px] ml-[100px]"
+                >Protocol:</label
+              >
+              <select
+                id="protocol"
+                name="protocol"
+                class="border border-gray-400 max-h-[22px] w-[165px]"
+              >
+                <option value="tcp">TCP</option>
+                <option value="udp">UDP</option>
+              </select>
+              <div class="text-right text-[12px]">
+                <a href="#" class="text-gray-600 hover:underline"
+                  >Forgot password?</a
+                >
+              </div>
+            </div>
+
+            <div class="flex justify-center mt-[100px] space-x-1">
+              <button
+                type="submit"
+                class="border-[1px] border-black text-[12px] ml-[50px] w-[80px] h-[24px] bg-gradient-to-b from-[#fbfafb] to-[#b6b4b5] cursor-pointer hover:bg-[#ebc034]"
+              >
+                Login
+              </button>
+              <button
+                type="button"
+                class="border-[1px] border-black text-[12px] w-[80px] h-[24px] bg-gradient-to-b from-[#fbfafb] to-[#b6b4b5] cursor-pointer hover:bg-[#ebc034]"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
