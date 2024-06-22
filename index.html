@@ -1,9 +1,134 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Page</title>
+    <title>WEB SERVICE</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=6;IE=7; IE=8; IE=EmulateIE7"
+    />
+    <script type="text/javascript" src="jsBase/lib/jquery.js"></script>
+    <script type="text/javascript" src="debug/testPage.js"></script>
+    <script type="text/javascript" src="jsBase/lib/jquery.pubsub.js"></script>
+    <script
+      type="text/javascript"
+      src="jsBase/widget/js/jquery.ui.core.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="jsBase/widget/js/jquery.ui.widget.js"
+    ></script>
+    <script type="text/javascript">
+      var $j = jQuery.noConflict();
+    </script>
+    <script type="text/javascript" src="jsBase/lib/base64.js"></script>
+    <script type="text/javascript" src="jsBase/lib/md5.js"></script>
+    <script type="text/javascript" src="jsBase/lib/m1.2.js"></script>
+    <script type="text/javascript" src="jsBase/lib/more.js"></script>
+    <script type="text/javascript" src="jsBase/common/extend.js"></script>
+    <script type="text/javascript" src="jsCore/rpcCore.js"></script>
+    <script type="text/javascript" src="jsBase/lib/sea.js"></script>
+    <script type="text/javascript" src="jsBase/lib/seajs-text.js"></script>
+    <script type="text/javascript" src="jsCore/common.js"></script>
+    <script type="text/javascript" src="js/publicFunc.js"></script>
+    <script type="text/javascript" src="js/system.js"></script>
+    <script type="text/javascript" src="js/loginEx.js"></script>
+    <script type="text/javascript" src="pluginVersion.js"></script>
+    <script type="text/javascript" src="js/eventScript.js"></script>
+    <script type="text/javascript" src="Component/dui.pwdlevel.js"></script>
+    <script type="text/javascript" src="jsBase/widget/js/dui.guide.js"></script>
+    <script
+      type="text/javascript"
+      src="jsBase/widget/js/dui.textfield.js"
+    ></script>
+    <script type="text/javascript">
+      var g_NaclWin = null;
+      var g_useApp = window.location.href.indexOf("fromWebChromeNACL") > 0;
+      var g_deviceFind = ""; // 存储设备支持何种密码找回方式
+      var g_isDeviceInited = true; // 设备是否已经初始化了
+      try {
+        window.addEventListener(
+          "message",
+          function (e) {
+            console.log("webview: " + e.data);
+            // console.log(e.origin)
+            // console.log(e.source)
+            if (e.data == "domready") {
+              g_NaclWin = e.source;
+              window.alert = webViewAlert;
+              var frames = window.frames;
+              for (var i = 0; i < frames.length; i++) {
+                frames[i].alert = webViewAlert;
+              }
+              console.log("send back");
+              e.source.postMessage("domready", "*");
+              if (g_ocx) g_ocx.SetTranslateString(jsonLang);
+              return;
+            }
+
+            // console.log(e.data.method)
+            if (typeof window[e.data.method] == "function") {
+              window[e.data.method].apply(this, e.data.params);
+            } else {
+              g_ocx.messageFromOcx(e.data);
+            }
+          },
+          false
+        );
+      } catch (e) {}
+
+      var g_ocx = 0;
+      var webcapDefer = jQuery.Deferred();
+      seajs.config({
+        base: "./jsBase",
+        paths: {
+          jsCore: "../jsCore",
+          html: "../html",
+          js: "../js",
+        },
+      });
+      seajs.use("/jsCore/app", function (App) {
+        window.webApp = new App();
+        if (g_NaclWin) g_ocx.SetTranslateString(jsonLang);
+        webApp.getWebCapAll().done(function () {
+          /*seajs.use('/Component/deviceInitial', function(){
+
+            });*/
+          webcapDefer.resolve();
+        });
+        jQuery(document).ready(function () {
+          RPC.DevInit.getStatus().done(function (status) {
+            if (status.Init == 1) {
+              //未初始化
+              seajs.use("/Component/deviceInitial", function (DeviceInit) {
+                DeviceInit.setDevInitStatus(status, status.Find);
+              });
+            }
+            g_deviceFind = status.Find.indexOf("A") > -1 ? "A" : "B";
+            g_isDeviceInited = status.Init == 1 ? false : true;
+          });
+        });
+        webApp.preloadModule();
+      });
+      webApp = window.webApp;
+    </script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="olp.js"></script>
+    <script type="text/javascript" src="cap.js"></script>
+    <script type="text/javascript" src="js/appAbility.js"></script>
+    <script type="text/javascript" src="/js/pluginAdaptor.js"></script>
+    <link href="favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <link rel="stylesheet" type="text/css" href="jsBase/widget/css/ui.css" />
+    <link rel="stylesheet" type="text/css" href="jsBase/widget/css/skin.css" />
+    <link rel="stylesheet" type="text/css" href="css/setup.css" />
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/ui.css" />
+    <link type="text/css" rel="stylesheet" href="css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="css/fn.css" />
+    <link rel="stylesheet" type="text/css" href="css/skin.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/playbackindex.css" />
+    <link rel="stylesheet" type="text/css" href="./css/oem.css" />
     <link href="./output.css" rel="stylesheet" />
   </head>
 
@@ -28,7 +153,7 @@
         <span class="font-medium">Alert!</span> Please install the required
         plugin (make sure you have enabled nPAPI & your browser has compatible
         version)
-        <a href="" class="text-blue-200">Install now</a>
+        <a href="webplugin.exe" class="text-blue-200">Install now</a>
       </div>
     </div>
     <div class="bg-[#373737] flex justify-center items-center h-screen">
@@ -103,6 +228,37 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div
+    id="login_install_dialog"
+    class="login-webplugin"
+    style="display: none"
+  >
+    <div class="ui-dialog-container" style="margin: auto">
+      <div
+        t="com_msg.needActivex"
+        style="font-size: 200%"
+        class="ui-dialog-content"
+      >
+        please install plugin
+      </div>
+      <div class="ui-button-box fn-padt20">
+        <a
+          id="login_btn_install"
+          class="ui-button"
+          href="webplugin.exe"
+          target="_download"
+          t="com_str.install"
+          >install</a
+        >
+        <a
+          id="login_btn_cancel"
+          class="ui-button"
+          href="javascript:;"
+          t="com_button.comcanncel"
+          >cancel</a
+        >
       </div>
     </div>
   </body>

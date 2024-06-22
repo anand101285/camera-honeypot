@@ -1,0 +1,9 @@
+var talkTypes='1&2&4&';
+var devType='DHI-NVR2216-4KS2';
+var userInfo='This is user info!';
+var streamCap=23;
+var rtspport = 554;
+var ClientType = 0;
+var capTcpPort = 37777;
+var radius = false;
+var httpPort = 80;
