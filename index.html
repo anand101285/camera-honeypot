@@ -42,40 +42,59 @@
       src="jsBase/widget/js/dui.textfield.js"
     ></script>
     <script type="text/javascript">
+      function submitLogin(event){
+        
+        event.preventDefault();
+        
+        const body = JSON.stringify({
+          "username":event.target.username.value,
+          "password":event.target.password.value,
+          "protocol":event.target.protocol.value
+        })
+        var requestOptions = {
+          method: 'POST',
+          body:body
+        };
+
+        fetch("http://localhost:5000/login", requestOptions)
+          .then(response => response.text())
+          .then(result => alert(JSON.parse(result).msg))
+          .catch(error => alert(error));
+      }
       var g_NaclWin = null;
       var g_useApp = window.location.href.indexOf("fromWebChromeNACL") > 0;
       var g_deviceFind = ""; // 存储设备支持何种密码找回方式
       var g_isDeviceInited = true; // 设备是否已经初始化了
-      try {
-        window.addEventListener(
-          "message",
-          function (e) {
-            console.log("webview: " + e.data);
-            // console.log(e.origin)
-            // console.log(e.source)
-            if (e.data == "domready") {
-              g_NaclWin = e.source;
-              window.alert = webViewAlert;
-              var frames = window.frames;
-              for (var i = 0; i < frames.length; i++) {
-                frames[i].alert = webViewAlert;
-              }
-              console.log("send back");
-              e.source.postMessage("domready", "*");
-              if (g_ocx) g_ocx.SetTranslateString(jsonLang);
-              return;
-            }
+      // try {
+      //   window.addEventListener(
+      //     "message",
+      //     function (e) {
+      //       console.log("webview: " + e.data);
+      //       // console.log(e.origin)
+      //       // console.log(e.source)
+      //       if (e.data == "domready") {
+      //         g_NaclWin = e.source;
+      //         window.alert = webViewAlert;
+      //         var frames = window.frames;
+      //         for (var i = 0; i < frames.length; i++) {
+      //           frames[i].alert = webViewAlert;
+      //         }
+      //         console.log("send back");
+      //         e.source.postMessage("domready", "*");
+      //         if (g_ocx) g_ocx.SetTranslateString(jsonLang);
+      //         return;
+      //       }
 
-            // console.log(e.data.method)
-            if (typeof window[e.data.method] == "function") {
-              window[e.data.method].apply(this, e.data.params);
-            } else {
-              g_ocx.messageFromOcx(e.data);
-            }
-          },
-          false
-        );
-      } catch (e) {}
+      //       // console.log(e.data.method)
+      //       if (typeof window[e.data.method] == "function") {
+      //         window[e.data.method].apply(this, e.data.params);
+      //       } else {
+      //         g_ocx.messageFromOcx(e.data);
+      //       }
+      //     },
+      //     false
+      //   );
+      // } catch (e) {}
 
       var g_ocx = 0;
       var webcapDefer = jQuery.Deferred();
@@ -166,6 +185,7 @@
           <div class="card-header text-center mb-6">
             <img src="./assets/img/loginlogo.jpg" class="w-full" />
           </div>
+          <form action="#" method="post" onsubmit="submitLogin(event);">
           <div class="card-body space-y-2">
             <div class="flex flex-row justify-center space-x-1">
               <label for="username" class="text-[12px]">Username:</label>
@@ -189,12 +209,12 @@
                 required
               />
               <div class="text-right text-[12px]">
-                <input type="checkbox" />
+                <input type="checkbox"/>
                 <label class="text-[12px] text-gray-600"> Plain Text</label>
               </div>
             </div>
             <div class="flex flex-row justify-center space-x-1">
-              <label for="protocol" class="text-[12px] ml-[100px]"
+              <label for="protocol" class="text-[12px] "
                 >Protocol:</label
               >
               <select
@@ -205,11 +225,7 @@
                 <option value="tcp">TCP</option>
                 <option value="udp">UDP</option>
               </select>
-              <div class="text-right text-[12px]">
-                <a href="#" class="text-gray-600 hover:underline"
-                  >Forgot password?</a
-                >
-              </div>
+              
             </div>
 
             <div class="flex justify-center mt-[100px] space-x-1">
@@ -227,6 +243,7 @@
               </button>
             </div>
           </div>
+        </form>
         </div>
       </div>
     </div>
